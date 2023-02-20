@@ -10,6 +10,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(`/auth`, require("./routes/authRoutes"));
+app.use(`/company`, require("./routes/companyRoutes"));
 app.use(`/tenants`, require("./routes/tenantRoutes"));
 app.use(`/employees`, require("./routes/employeeRoutes"));
 

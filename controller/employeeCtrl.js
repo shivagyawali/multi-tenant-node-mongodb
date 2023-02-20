@@ -26,7 +26,8 @@ return res.json(results);
 };
 
 exports.create = async (req, res) => {
-  const tenantId = req.params.tenantId;
+
+  const tenantId = req.tenant.id;
   const {name} = req.body
   try {
     // Create new tenant in AppTenants database

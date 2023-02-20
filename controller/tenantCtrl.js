@@ -1,6 +1,7 @@
 const TenantSchema = require("../models/tenantSchema");
 const EmployeeSchema = require("../models/employeeSchema.js");
 const { switchDB, getDBModel } = require("../services/db.js");
+const bcrypt = require("bcrypt");
 
 const EmployeeSchemas = new Map([["employee", EmployeeSchema]]);
 const TenantSchemas = new Map([["tenant", TenantSchema]]);
@@ -8,12 +9,13 @@ const TenantSchemas = new Map([["tenant", TenantSchema]]);
 exports.getAllTenant = async (req, res) => {
   const tenantDB = await switchDB("AppTenants", TenantSchemas);
   const tenantModel = await getDBModel(tenantDB, "tenant");
-  const tenants = await tenantModel.find({});
+  const tenants = await tenantModel.find({}).select("-password");
   res.json(tenants);
 };
 
 exports.create = async (req, res) => {
   const { name, email, password, companyName } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const tenantDB = await switchDB("AppTenants", TenantSchemas);
   const tenantModel = await getDBModel(tenantDB, "tenant");
@@ -29,12 +31,15 @@ exports.create = async (req, res) => {
   } else {
      const createdTenant = await tenantModel.create({
        companySlug: cName,
-       ...req.body,
+       password: hashedPassword,
+       name:name,
+       email:email,
+       companyName:companyName
      });
     //create new db for tenant
     await switchDB(createdTenant.companySlug, EmployeeSchemas);
 
-    return res.status(201).json(createdTenant);
+    return res.status(201).json({ message: "Company tenant created successfully" });;
   }
 };
 

@@ -16,8 +16,13 @@ const tenantSchema = mongoose.Schema({
   },
   companySlug: {
     type: String,
-    trim:true,
+    trim: true,
     unique: true,
+  },
+  role: {
+    type: String,
+    enum: ["superAdmin", "company"],
+    default: "company",
   },
 });
 
