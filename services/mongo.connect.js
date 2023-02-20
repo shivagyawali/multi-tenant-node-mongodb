@@ -14,7 +14,6 @@ function connectDB() {
     mongoose
       .connect(mongoURL, mongoOptions)
       .then((conn) => {
-        console.log(`connected to ${mongoURL}`);
         resolve(conn);
       })
       .catch((error) => reject(error));

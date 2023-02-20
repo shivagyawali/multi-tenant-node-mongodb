@@ -4,7 +4,7 @@ const { switchDB, getDBModel } = require("../services/db.js");
 
 const EmployeeSchemas = new Map([["employee", EmployeeSchema]]);
 const TenantSchemas = new Map([["tenant", TenantSchema]]);
-
+const { faker } =require("@faker-js/faker");
 async function defaultSeed() {
   try {
     const tenantDB = await switchDB("AppTenants", TenantSchemas);
@@ -32,11 +32,11 @@ async function defaultSeed() {
 
     const customers = await tenant.find({});
     const createEmployees = customers.map(async (tenant) => {
-      const companyDB = await switchDB(tenant.companyName, EmployeeSchemas);
+      const companyDB = await switchDB(tenant.companySlug, EmployeeSchemas);
       const employeeModel = await getDBModel(companyDB, "employee");
       await employeeModel.deleteMany({});
       return employeeModel.create({
-        name: "John",
+        name: faker.name.fullName(),
         companyName: tenant.companyName,
       });
     });
