@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: MultiTenant Company App
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /employees:
+    get:
+      tags:
+        - default
+      summary: Get all Employees
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tenants/create:
+    post:
+      tags:
+        - default
+      summary: Create New Company & add their employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Shashank Adhikari
+                email: shashank@gmail.com
+                password: shashank123
+                companyName: techtemple
+                employeeName: Bipin Pathak
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /employees/63f30385bc71742c97125b52/create:
+    post:
+      tags:
+        - default
+      summary: Create New Employees to specific tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Prakash Acharya
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tenants/63f30160e92f4c1da2da0983:
+    delete:
+      tags:
+        - default
+      summary: Delete the company and tenant
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
