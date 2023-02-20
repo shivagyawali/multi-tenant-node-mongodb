@@ -4,6 +4,6 @@ const employeeCtrl = require("../controller/employeeCtrl");
 
 router.get("/", employeeCtrl.getAllEmployee);
 router.post("/:tenantId/create", employeeCtrl.create);
-
+    
 
 module.exports = router;

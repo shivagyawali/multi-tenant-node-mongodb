@@ -13,20 +13,30 @@ exports.getAllTenant = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const tenantId = req.params.tenantId;
+  const { name, email, password, companyName } = req.body;
+
   const tenantDB = await switchDB("AppTenants", TenantSchemas);
   const tenantModel = await getDBModel(tenantDB, "tenant");
-  const tenant = await tenantModel.findOne({ id: tenantId });
-  const companyDB = await switchDB(tenant.companyName, EmployeeSchemas);
-  const employeeModel = await getDBModel(companyDB, "employee");
-  const { name } = req.body;
-  const employee = await employeeModel.create({
-    name,
-    companyName: tenant.companyName,
+  const cName = companyName.replace(/\s+/g, "-").toLowerCase();
+  const tenant = await tenantModel.findOne({
+    email: email,
+    companyName: companyName,
   });
-  res.status(201).json(employee);
-};
+  if (tenant) {
+    return res.json({
+      message: "Tenant Already Exists",
+    });
+  } else {
+     const createdTenant = await tenantModel.create({
+       companySlug: cName,
+       ...req.body,
+     });
+    //create new db for tenant
+    await switchDB(createdTenant.companySlug, EmployeeSchemas);
 
+    return res.status(201).json(createdTenant);
+  }
+};
 
 exports.destroy = async (req, res) => {
   const { id } = req.params.id;
@@ -42,7 +52,7 @@ exports.destroy = async (req, res) => {
     await tenant.deleteOne();
 
     //   // Drop the corresponding company database
-    const companyDB = await switchDB(tenant.companyName, EmployeeSchemas);
+    const companyDB = await switchDB(tenant.companySlug, EmployeeSchemas);
 
     if (companyDB) {
       await companyDB.dropDatabase();

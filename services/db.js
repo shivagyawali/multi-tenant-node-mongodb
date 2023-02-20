@@ -1,5 +1,3 @@
-// db.js
-
 const connectDB = require("./mongo.connect.js");
 
 const switchDB = async (dbName, dbSchema) => {

@@ -11,23 +11,24 @@ async function defaultSeed() {
     const tenant = await getDBModel(tenantDB, "tenant");
     await tenant.deleteMany({});
     const tenantA = await tenant.create({
-      name: "Steve",
-      email: "Steve@example.com",
-      password: "secret",
-      companyName: "Apple",
+      _id: "63f32c4f05a3720b0e8dbc3c",
+      name: "Shashank Adhikari",
+      email: "shashank@gmail.com",
+      password: "shashank123",
+      companyName: "Tech Temple It Solutions",
+      companySlug: "tech-temple-it-solutions",
+      __v: 0,
     });
     const tenantB = await tenant.create({
-      name: "Bill",
-      email: "Bill@example.com",
-      password: "secret",
-      companyName: "Microsoft",
+      _id: "63f33100187bcbb7a07f3d85",
+      name: "Sandeep Neupane",
+      email: "sandeep@gmail.com",
+      password: "sandeep123",
+      companyName: "Lumbini Tech",
+      companySlug: "lumbini-tech",
+      __v: 0,
     });
-    const tenantC = await tenant.create({
-      name: "Jeff",
-      email: "Jeff@example.com",
-      password: "secret",
-      companyName: "Amazon",
-    });
+   
 
     const customers = await tenant.find({});
     const createEmployees = customers.map(async (tenant) => {

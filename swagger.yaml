@@ -5,38 +5,53 @@ info:
 servers:
   - url: http://localhost:3000
 paths:
-  /employees:
-    get:
-      tags:
-        - default
-      summary: Get all Employees
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
   /tenants/create:
     post:
       tags:
         - default
-      summary: Create New Company & add their employee
+      summary: Create New Company & add new db
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                name: Shashank Adhikari
-                email: shashank@gmail.com
-                password: shashank123
-                companyName: techtemple
-                employeeName: Bipin Pathak
+                name: Sandeep Neupane
+                email: sandeep@gmail.com
+                password: sandeep123
+                companyName: Lumbini Tech
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /employees/63f30385bc71742c97125b52/create:
+  /tenants:
+    get:
+      tags:
+        - default
+      summary: Get All Tenant
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tenants/{id}:
+    delete:
+      tags:
+        - default
+      summary: Delete the company and tenant
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /employees/{tenantId}/create:
     post:
       tags:
         - default
@@ -47,17 +62,23 @@ paths:
             schema:
               type: object
               example:
-                name: Prakash Acharya
+                name: Dhiren Thapa
+      parameters:
+        - name: tenantId
+          in: path
+          schema:
+            type: string
+          required: true
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /tenants/63f30160e92f4c1da2da0983:
-    delete:
+  /employees:
+    get:
       tags:
         - default
-      summary: Delete the company and tenant
+      summary: Get all Employees
       responses:
         '200':
           description: Successful response

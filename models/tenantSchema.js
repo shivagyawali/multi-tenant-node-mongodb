@@ -14,6 +14,11 @@ const tenantSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
+  companySlug: {
+    type: String,
+    trim:true,
+    unique: true,
+  },
 });
 
 module.exports = tenantSchema;

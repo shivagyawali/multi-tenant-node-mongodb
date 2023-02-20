@@ -14,46 +14,48 @@ const getAllTenants = async (req, res) => {
 
 exports.getAllEmployee = async (req, res) => {
   const customers = await getAllTenants();
-  const mapCustomers = customers.map(async (tenant) => {
-    const companyDB = await switchDB(tenant.companyName, EmployeeSchemas);
+
+  const employeePromises = customers.map(async (tenant) => {
+    const companyDB = await switchDB(tenant.companySlug, EmployeeSchemas);
     const employeeModel = await getDBModel(companyDB, "employee");
-    return employeeModel.findMany({});
+    return employeeModel.find();
   });
-  const results = await Promise.all(mapCustomers);
- return res.json({
-    results,
-    count:results.length
-  });
+
+  const results = await Promise.all(employeePromises)
+return res.json(results);
 };
 
 exports.create = async (req, res) => {
+  const tenantId = req.params.tenantId;
+  const {name} = req.body
   try {
     // Create new tenant in AppTenants database
     const tenantDB = await switchDB("AppTenants", TenantSchemas);
     const tenant = await getDBModel(tenantDB, "tenant");
-    const newTenant = await tenant.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      companyName: req.body.companyName,
-    });
+    const tenantModel = await tenant.findById(tenantId);
 
-    // Create new employee in company database for the new tenant
-    const companyDB = await switchDB(newTenant.companyName, EmployeeSchemas);
+  if (!tenantModel) {
+    return res.json({
+      message: "Create Tenant first",
+    });
+  }
+
+   //Create new employee in company database for the new tenant
+    const companyDB = await switchDB(tenantModel.companySlug, EmployeeSchemas);
     const employeeModel = await getDBModel(companyDB, "employee");
+    
     const newEmployee = await employeeModel.create({
-      name: req.body.employeeName,
-      companyName: req.body.companyName,
+      name: name,
+      companyName: tenantModel.companyName,
     });
 
     // Return success message with new tenant and employee details
     res.status(201).json({
       message: "New tenant and employee created successfully",
-      newTenant,
       newEmployee,
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error creating tenant and employee" });
-  }
+   }
 };
