@@ -15,6 +15,7 @@
 - cp .env.example .env
 - npm install
 - npm run seed (only for the seed )
+- npm start
 
 ## Result 
 - Documentation here: 🔥🔥🔥 👉 - http://localhost:3000/docs
