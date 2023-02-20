@@ -1,4 +1,5 @@
 ## Multitenancy example with mongodb 
+Multi-tenancy is an architecture in which a single instance of a software application serves multiple customers. Each customer is called a tenant.
 
 ## Application Architecture
 
