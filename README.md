@@ -1,5 +1,11 @@
 ## Multitenancy example with mongodb 
 
+## Application Architecture
+
+![AppDesign](./images/appDesign.png)
+
+
+
 ### Using method of swiching connection from mongoose client pool connection.
 **Requires**
 -  .env file
@@ -10,7 +16,7 @@
 - npm install
 - npm run seed (only for the seed )
 
-## Application Architecture
+## Result 
+- Documentation here: 🔥🔥🔥 👉 - http://localhost:3000/docs
 
-![AppDesign](./images/appDesign.png)
 
