@@ -39,7 +39,7 @@ paths:
     delete:
       tags:
         - App Main Tenant
-      summary: Delete the company and tenant
+      summary: Delete the company and tenant db
       parameters:
         - name: id
           in: path
