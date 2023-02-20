@@ -8,7 +8,7 @@ paths:
   /tenants/create:
     post:
       tags:
-        - default
+        - App Main Tenant
       summary: Create New Company & add new db
       requestBody:
         content:
@@ -28,7 +28,7 @@ paths:
   /tenants:
     get:
       tags:
-        - default
+        - App Main Tenant
       summary: Get All Tenant
       responses:
         '200':
@@ -38,7 +38,7 @@ paths:
   /tenants/{id}:
     delete:
       tags:
-        - default
+        - App Main Tenant
       summary: Delete the company and tenant
       parameters:
         - name: id
@@ -54,7 +54,7 @@ paths:
   /employees/{tenantId}/create:
     post:
       tags:
-        - default
+        - Employee Tenant
       summary: Create New Employees to specific tenant
       requestBody:
         content:
@@ -77,7 +77,7 @@ paths:
   /employees:
     get:
       tags:
-        - default
+        - Employee Tenant
       summary: Get all Employees
       responses:
         '200':
