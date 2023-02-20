@@ -16,8 +16,8 @@ exports.getAllEmployee = async (req, res) => {
   const customers = await getAllTenants();
 
   const employeePromises = customers.map(async (tenant) => {
-    const companyDB = await switchDB(tenant.companySlug, EmployeeSchemas);
-    const employeeModel = await getDBModel(companyDB, "employee");
+    const employeeDB = await switchDB(tenant.companySlug, EmployeeSchemas);
+    const employeeModel = await getDBModel(employeeDB, "employee");
     return employeeModel.find();
   });
 
@@ -41,8 +41,8 @@ exports.create = async (req, res) => {
   }
 
    //Create new employee in company database for the new tenant
-    const companyDB = await switchDB(tenantModel.companySlug, EmployeeSchemas);
-    const employeeModel = await getDBModel(companyDB, "employee");
+    const employeeDB = await switchDB(tenantModel.companySlug, EmployeeSchemas);
+    const employeeModel = await getDBModel(employeeDB, "employee");
     
     const newEmployee = await employeeModel.create({
       name: name,
