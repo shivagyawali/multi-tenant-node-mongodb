@@ -1,5 +1,5 @@
-## Multitenancy example with mongodb 
-Multi-tenancy is an architecture in which a single instance of a software application serves multiple customers. Each customer is called a tenant.
+## Multitenancy with mongodb 
+The Dynamic Multi-Tenant Employer Management System, crafted using Node.js and MongoDB, introduces an innovative approach to employer management. This system embraces a dynamic multi-tenancy architecture, where a unique database is created for each employer, ensuring unprecedented data isolation and security.
 
 ## Application Architecture
 
